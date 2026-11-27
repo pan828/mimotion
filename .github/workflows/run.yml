@@ -2,8 +2,8 @@ name: 刷步数
 
 on:
   schedule:
-    # UTC 04:00 = 北京时间每天 12:00
-    - cron: '0 4 * * *'
+    # UTC 08:00 = 北京时间每天 16:00
+    - cron: '0 8 * * *'
   workflow_dispatch:
 
 jobs:
