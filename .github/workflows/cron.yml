@@ -1,16 +1,13 @@
 name: Random Cron
 on:
-  workflow_run:
-    workflows: ["刷步数"]
-    types:
-      - completed
   workflow_dispatch:
 
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
     timeout-minutes: 3
-    if: github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch'
+    # 已停用随机定时，避免覆盖北京时间每天 12:00 的固定计划。
+    if: ${{ false }}
     steps:
       - uses: actions/checkout@v3
         with:
