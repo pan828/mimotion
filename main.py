@@ -27,8 +27,18 @@ def get_int_value_default(_config: dict, _key, default):
     return int(_config.get(_key))
 
 
-# 获取当前时间对应的最大和最小步数
+# 获取步数范围：优先使用固定范围，否则按当前时间折算
 def get_min_max_by_time(hour=None, minute=None):
+    fixed_min = os.environ.get('FIXED_MIN_STEP')
+    fixed_max = os.environ.get('FIXED_MAX_STEP')
+    if fixed_min is not None or fixed_max is not None:
+        if fixed_min is None or fixed_max is None:
+            raise ValueError('FIXED_MIN_STEP 和 FIXED_MAX_STEP 必须同时设置')
+        min_step, max_step = int(fixed_min), int(fixed_max)
+        if min_step < 0 or max_step < min_step:
+            raise ValueError('固定步数范围必须满足 0 <= 最小步数 <= 最大步数')
+        return min_step, max_step
+
     if hour is None:
         hour = time_bj.hour
     if minute is None:
